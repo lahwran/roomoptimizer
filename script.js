@@ -24,11 +24,33 @@ function change(amount, value, min, max) {
 
 function changeall(amount, elements, room) {
     var e = angular.copy(elements);
+    for (var a = 0; a < e.length; a++) {
+        var e1 = e[a];
+        for (var b = a+1; b < e.length; b++) {
+            var e2 = e[b];
+            var v = Math.random() / amount;
+            if (v < 0.07) {
+                var z = {x: e1.x, y: e1.y};
+                e1.x = e2.x;
+                e1.y = e2.y;
+                e2.x = z.x;
+                e2.y = z.y;
+            }
+        }
+    }
     for (var i = 0; i < e.length; i++) {
         var element = e[i];
         var minradius = Math.min(element.width/2, element.height/2);
         element.x = change(amount, element.x, minradius, room.width-minradius);
         element.y = change(amount, element.y, minradius, room.height-minradius);
+        var rot = Math.random() / amount;
+        if (rot < 0.05) {
+            element.rotation -= 90;
+        } else if (rot > 0.05 && rot < 0.1) {
+            element.rotation -= 180;
+        } else if (rot > 0.10 && rot < 0.15) {
+            element.rotation -= 270;
+        }
         element.rotation = change(amount, element.rotation, 0, 360);
         element.points = null;
     }
