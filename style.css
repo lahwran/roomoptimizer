@@ -1,0 +1,103 @@
+/* Styles go here */
+body {
+    background-color: #222222;
+    color: #dddddd;
+    font-family: sans-serif;
+}
+
+.historyitem .borderthing {
+    margin: 10px;
+    border: 1px solid #333333;
+    padding: 5px;
+    display: inline-block;
+}
+
+.clickableroom:hover, .borderthing:hover {
+    background: #cd3d91;
+}
+.clickableroom {
+    display: inline-block;
+    cursor: poiner;
+}
+.historyitem > .borderthing > * {
+    display: inline-block;
+    vertical-align: top;
+}
+.room {
+    position: relative;
+    background-color: #444444;
+}
+
+.room div {
+    display: inline-block;
+}
+
+.feature.outlet, .feature.vent {
+    color: transparent;
+    background-color: red;
+}
+.thing {
+    background-color: #777777;
+    border: 0px solid #cccccc;
+}
+.thing, .feature {
+    position: absolute;
+    box-sizing: border-box;
+}
+
+.feature {
+    background-color: #666666;
+}
+
+.ratingbutton, .ratingbox:hover .ratingbutton:hover ~ .ratingbutton {
+    vertical-align: top;
+    display: inline-block;
+    background-color: #444444;
+    box-sizing: content-box;
+    border-top: 3px solid #444444;
+    width: 10px;
+    height: 10px;
+    margin: 0px;
+    padding: 0px;
+}
+html > body div.ratingbox > div.ratingbutton.lit {
+    border-top: 3px solid #cd3d91 !important;
+}
+.ratingbox:hover .ratingbutton {
+    background-color: #cd3d91;
+}
+.spacer {
+    height: 10px;
+    vertical-align: top;
+}
+.ratingbox {
+    overflow: hidden;
+    vertical-align: top;
+    height: 13px;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+.circular {
+    border-radius: 50%;
+}
+
+.histories {
+    top: 0px;
+    right: 0px;
+    position: absolute;
+    width: 300px;
+    box-sizing: border-box;
+    border-left: 2px solid #444444;
+}
+.history {
+    height: 200px;
+    border-bottom: 2px solid #444444;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.history pre {
+    word-wrap: break-word;
+}

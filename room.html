@@ -1,0 +1,8 @@
+<div class="room" ng-style="css(room)">
+    <div class="thing {{element.label}}" ng-repeat="element in elements" ng-style="css(element)">
+        {{ element.label }}
+    </div>
+    <div class="feature {{element.label}}" ng-repeat="element in room.features" ng-style="css(element)">
+        {{ element.label }}
+    </div>
+</div>
