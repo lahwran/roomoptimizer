@@ -61,23 +61,23 @@ function distance(x1, y1, x2, y2) {
     return Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));
 }
 if (debug >= 1) {
-    console.log("distance test:", distance(0, 0, 1, 0), 1);
-    console.log("distance test:", distance(0, 0, 1, 1));
-    console.log("distance test:", distance(-30, -40, 100, 100));
+    console.log("TEST distance:", distance(0, 0, 1, 0), 1);
+    console.log("TEST distance:", distance(0, 0, 1, 1));
+    console.log("TEST distance:", distance(-30, -40, 100, 100));
 }
 
 function rotatepoint(point, center, angle) {
     // from http://www.gamefromscratch.com/post/2012/11/24/GameDev-math-recipes-Rotating-one-point-around-another-point.aspx
-    var anglerad = -angle * (Math.PI/180);
+    var anglerad = angle * (Math.PI/180);
     return {
         x: Math.cos(anglerad) * (point.x - center.x) - Math.sin(anglerad) * (point.y - center.y) + center.x,
         y: Math.sin(anglerad) * (point.x - center.x) + Math.cos(anglerad) * (point.y - center.y) + center.y
     }
 }
 if (debug >= 1) {
-    console.log("positive rotate:", rotatepoint({x: 0, y: 30}, {x: 0, y: 0}, 15));
-    console.log("360 rotate to 0:", rotatepoint({x: 0, y: 0}, {x: 10, y: 10}, 360));
-    console.log("180 rotate to 0:", rotatepoint({x: 20, y: 20}, {x: 10, y: 10}, 180));
+    console.log("TEST: positive rotate:", rotatepoint({x: 0, y: 30}, {x: 0, y: 0}, -15));
+    console.log("TEST: 360 rotate to 0:", rotatepoint({x: 0, y: 0}, {x: 10, y: 10}, 360));
+    console.log("TEST: 180 rotate to 0:", rotatepoint({x: 20, y: 20}, {x: 10, y: 10}, 180));
 }
 
 function points(square) {
@@ -97,18 +97,18 @@ function points(square) {
     return square.points;
 }
 if (debug >= 1) {
-    console.log("points blah:", points({x: 30, y: 30, width: 10, height: 20, rotation: 10}));
-    console.log("points 45:", points({x: 0, y: 0, width: 5, height: 5, rotation: 45}));
-    console.log("points 90:", points({x: 0, y: 0, width: 5, height: 5, rotation: 90}));
-    console.log("points thin:", points({x: 0, y: 0, width: 50, height: 5, rotation: 0}));
-    console.log("points tall:", points({x: 0, y: 0, width: 5, height: 50, rotation: 0}));
-    console.log("points far:", points({x: 100, y: 100, width: 5, height: 5, rotation: 0}));
+    console.log("TEST points blah:", points({x: 30, y: 30, width: 10, height: 20, rotation: 10}));
+    console.log("TEST points 45:", points({x: 0, y: 0, width: 5, height: 5, rotation: 45}));
+    console.log("TEST points 90:", points({x: 0, y: 0, width: 5, height: 5, rotation: 90}));
+    console.log("TEST points thin:", points({x: 0, y: 0, width: 50, height: 5, rotation: 0}));
+    console.log("TEST points tall:", points({x: 0, y: 0, width: 5, height: 50, rotation: 0}));
+    console.log("TEST points far:", points({x: 100, y: 100, width: 5, height: 5, rotation: 0}));
 }
 
 function intersects(obja, objb) {
     if (obja.circular === true && objb.circular === true) {
         // dual-circle intersection
-        if (debug >= 2) console.log("circle intersect");
+        if (debug >= 2) console.log("-> INTERSECT: circle intersect");
         return distance(obja.x, obja.y, objb.x, objb.y) < obja.width + objb.width;
     } else if (obja.circular === true || objb.circular === true) {
         // note: this is not actually a proper collision solution.
@@ -117,7 +117,7 @@ function intersects(obja, objb) {
         // between all edges of rectangle and line between centers.
         //
         // cbf for something that's ultimately just a filter.
-        if (debug >= 2) console.log("circle-box intersect");
+        if (debug >= 2) console.log("-> INTERSECT: circle-box intersect");
         if (obja.circular === true) {
             var objc = obja;
             obja = objb;
@@ -131,45 +131,53 @@ function intersects(obja, objb) {
             var point = sqpoints[x];
             var d = distance(point.x, point.y, circle.x, circle.y);
             if (d < radius) {
-                if (debug >= 3) console.log("point", x, "intersect", d);
+                if (debug >= 3) console.log("--> INTERSECT: point", x, "intersect", d);
                 return true;
             }
         }
         var centerd = distance(square.x, square.y, circle.x, circle.y);
-        if (debug >= 3) console.log("centerd", centerd, radius);
+        if (debug >= 3) console.log("--> INTERSECT: centerd", centerd, radius);
         var sqminradius = Math.min(square.width, square.height)/2;
         return centerd < (radius + sqminradius);
     } else {
-        if (debug >= 2) console.log("box intersect");
+        if (debug >= 2) console.log("-> INTERSECT: box intersect");
         var pointsa = points(obja);
         var pointsb = points(objb);
         return intersectPolys(pointsa, pointsb);
     }
 }
 if (debug >= 1) {
-    console.log("intersect s+s:", intersects(
+    console.log("TEST: intersect s+s:", intersects(
         {x: 0, y: 0, width: 10, height: 10, rotation: 0, circular: true},
         {x: 10, y: 10, width: 10, height: 10, rotation: 0, circular: true}
     ));
-    console.log("intersect s-s:", intersects(
+    console.log("TEST: intersect s-s:", intersects(
         {x: 0, y: 0, width: 10, height: 10, rotation: 0, circular: true},
         {x: 100, y: 10, width: 10, height: 10, rotation: 0, circular: true}
     ));
-    console.log("intersect s+q:", intersects(
+    console.log("TEST: intersect s+q:", intersects(
         {x: 30, y: 3, width: 10, height: 10, rotation: 0, circular: true},
         {x: 35.5, y: 3, width: 1, height: 1, rotation: 45}
     ));
-    console.log("intersect s-q:", intersects(
+    console.log("TEST: intersect s-q:", intersects(
         {x: 36, y: 3, width: 1, height: 1, rotation: 45},
         {x: 30, y: 3, width: 10, height: 10, rotation: 0, circular: true}
     ));
-    console.log("intersect q+q:", intersects(
+    console.log("TEST: intersect q+q:", intersects(
         {x: 30, y: 3, width: 10, height: 10, rotation: 30},
         {x: 36, y: 3, width: 1, height: 1, rotation: 45}
     ));
-    console.log("intersect q-q:", intersects(
+    console.log("TEST: intersect q-q:", intersects(
         {x: 30, y: 3, width: 10, height: 10, rotation: 0},
         {x: 36, y: 3, width: 1, height: 1, rotation: 0}
+    ));
+    console.log("TEST: intersect smallrot circle negative true ==", intersects(
+        {x: -10, y: -5, width: 10, height: 10, rotation: 0, circular: true},
+        {x: 0, y: 0, width: 20, height: 3, rotation: 10}
+    ));
+    console.log("TEST: intersect smallrot circle negative false ==", intersects(
+        {x: -10, y: -5, width: 10, height: 10, rotation: 0, circular: true},
+        {x: 0, y: 0, width: 20, height: 3, rotation: -10}
     ));
 }
 
@@ -209,18 +217,18 @@ function contained(obja, bounds) {
 }
 if (debug >= 1) {
     var testbounds = {x: 15, y: 15, width: 300, height: 34, circular: false, rotation: 0};
-    console.log("not contained:", contained({x: 0, y: 0, width: 10, height: 10, rotation: 0, circular: true}, testbounds));
-    console.log("contained:", contained({x: 10, y: 10, width: 10, height: 10, rotation: 0, circular: true},  testbounds));
-    console.log("not contained:", contained({x: 0, y: 0, width: 10, height: 10, rotation: 0, circular: true}, testbounds));
-    console.log("contained:", contained({x: 100, y: 10, width: 10, height: 10, rotation: 0, circular: true}, testbounds));
-    console.log("not contained:", contained({x: 30, y: 3, width: 10, height: 10, rotation: 0, circular: true}, testbounds));
-    console.log("contained:", contained({x: 35.5, y: 3, width: 1, height: 1, rotation: 45}, testbounds));
-    console.log("contained:", contained({x: 36, y: 3, width: 1, height: 1, rotation: 45}, testbounds));
-    console.log("not contained:", contained({x: 30, y: 3, width: 10, height: 10, rotation: 0, circular: true}, testbounds));
-    console.log("not contained:", contained({x: 30, y: 3, width: 10, height: 10, rotation: 30}, testbounds));
-    console.log("contained:", contained({x: 36, y: 3, width: 1, height: 1, rotation: 45}, testbounds));
-    console.log("not contained:", contained({x: 30, y: 3, width: 10, height: 10, rotation: 0}, testbounds));
-    console.log("contained:", contained({x: 36, y: 3, width: 1, height: 1, rotation: 0}, testbounds));
+    console.log("TEST: not contained:", contained({x: 0, y: 0, width: 10, height: 10, rotation: 0, circular: true}, testbounds));
+    console.log("TEST: contained:", contained({x: 10, y: 10, width: 10, height: 10, rotation: 0, circular: true},  testbounds));
+    console.log("TEST: not contained:", contained({x: 0, y: 0, width: 10, height: 10, rotation: 0, circular: true}, testbounds));
+    console.log("TEST: contained:", contained({x: 100, y: 10, width: 10, height: 10, rotation: 0, circular: true}, testbounds));
+    console.log("TEST: not contained:", contained({x: 30, y: 3, width: 10, height: 10, rotation: 0, circular: true}, testbounds));
+    console.log("TEST: contained:", contained({x: 35.5, y: 3, width: 1, height: 1, rotation: 45}, testbounds));
+    console.log("TEST: contained:", contained({x: 36, y: 3, width: 1, height: 1, rotation: 45}, testbounds));
+    console.log("TEST: not contained:", contained({x: 30, y: 3, width: 10, height: 10, rotation: 0, circular: true}, testbounds));
+    console.log("TEST: not contained:", contained({x: 30, y: 3, width: 10, height: 10, rotation: 30}, testbounds));
+    console.log("TEST: contained:", contained({x: 36, y: 3, width: 1, height: 1, rotation: 45}, testbounds));
+    console.log("TEST: not contained:", contained({x: 30, y: 3, width: 10, height: 10, rotation: 0}, testbounds));
+    console.log("TEST: contained:", contained({x: 36, y: 3, width: 1, height: 1, rotation: 0}, testbounds));
 }
 
 function physicallypossible(room, elements) {
@@ -228,20 +236,20 @@ function physicallypossible(room, elements) {
     for (var e = 0; e < elements.length; e++) {
         var element = elements[e];
         if (!contained(element, room)) {
-            if (debug >= 1) console.log("element not contained in room", element, room);
+            if (debug >= 1) console.log("POSSIBLE: element not contained in room", element, room);
             result = false;
         }
         for (var oe = e + 1; oe < elements.length; oe++) {
             var otherelement = elements[oe];
             if (intersects(element, otherelement)) {
-                if (debug >= 1) console.log("elements intersect", element, otherelement);
+                if (debug >= 1) console.log("POSSIBLE: elements intersect", element, otherelement);
                 result = false;
             }
         }
         for (var f = 0; f < room.features.length; f++) {
             var feature = room.features[f];
             if (feature.collide && intersects(element, feature)) {
-                if (debug >= 1) console.log("element intersects room feature", element, feature);
+                if (debug >= 1) console.log("POSSIBLE: element intersects room feature", element, feature);
                 result = false;
             }
         }
@@ -495,7 +503,12 @@ function controller($scope, $timeout) {
         }
         return result;
     };
-    $scope.sintemp = function() { return (Math.sin($scope.temperature * 32)/5 + 1) * $scope.temperature };
+    $scope.sintemp = function() {
+        return Math.pow(
+            (Math.sin($scope.temperature * 32)/5 + 1) * $scope.temperature,
+            4
+        );
+    };
     $scope.nextstep = function() {
         var newelements = changeall($scope.sintemp(), $scope.elements, $scope.room);
         var possible = physicallypossible($scope.room, newelements);
@@ -523,7 +536,7 @@ function controller($scope, $timeout) {
     //$scope.nextstep();
     if (debug >= 1) console.log("init physically possible:", physicallypossible($scope.room, $scope.elements));
     $scope.randswap();
-    $scope.temperature = 0.75;
+    $scope.temperature = 1;
     $scope.view = function(historyitem) {
         $scope.elements = historyitem.elements;
     }
