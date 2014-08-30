@@ -330,7 +330,7 @@ function controller($scope, $timeout) {
         $scope.ratings.push(rating);
     }
     $scope.room = {
-        width: 3.9116,
+        width: 7.2644,
         height: 5.0292,
         rotation: 0,
     };
@@ -440,7 +440,7 @@ function controller($scope, $timeout) {
             rotation: -90,
             label: "outlet"
         },
-        {
+        /* {
             width: 2.6416,
             height: 0.0762 * 3,
             y: 1.3208,
@@ -448,6 +448,15 @@ function controller($scope, $timeout) {
             rotation: -90,
             label: "opening"
             // room opening
+        }, */
+        {
+            width: 3.3528,
+            height: 2.3872,
+            x: 5.588,
+            y: 3.8354,
+            rotation: 0,
+            collide: true,
+            label: "kitchen"
         },
         {
             width: 0.635,
@@ -467,7 +476,7 @@ function controller($scope, $timeout) {
             label: "fp",
             d: "fireplace",
         },
-        {
+        /*{
             height: 0.1778, width: 0.9398,
             rotation: 0,
             x: 2.1844,
@@ -475,7 +484,15 @@ function controller($scope, $timeout) {
             collide: true,
             label: "fpg",
             d: "fireplace grill",
-        },
+        }, */
+        {
+            height: 1.0922, width: 2.4384,
+            x: 2.1844,
+            y: 0.7291,
+            rotation: 0,
+            collide: true,
+            label: "workbench"
+        }
     ]
     $scope.randswap = function() {
         var next = {
